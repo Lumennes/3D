@@ -98,5 +98,9 @@ jobs:
          state-name: ../.ftp-deploy-sync-state.json
          #protocol: ftps
          #port: 21 # todo replace with your web hosts ftps port
-         #exclude: |
-           #**/StandaloneWindows64/**
+         exclude: |
+           **/StandaloneWindows64/**
+           **/WebGL/**
+           **/Android/**
+           *.apk*
+           
