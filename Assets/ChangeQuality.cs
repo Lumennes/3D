@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// просто штука которая изменияет уровень графики при нажатии кнопки на один шаг, для теста графики
+/// </summary>
 public class ChangeQuality : MonoBehaviour
 {
     public TMP_Text text;
@@ -10,42 +13,18 @@ public class ChangeQuality : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        text.text = $"������� �������: {QualitySettings.names[QualitySettings.GetQualityLevel()]}";
+        text.text = $"Уровень графики: {QualitySettings.names[QualitySettings.GetQualityLevel()]}"; // вывод текста в UI
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L)) // при нажатии кнопки L (думаю она ни за что не отвечает нигде)
         {
-            //var next = QualitySettings.GetQualityLevel() + 1;
-            //if (next >= 6)
-            //    next = 0;
-            QualitySettings.SetQualityLevel(
+            QualitySettings.SetQualityLevel( // устанавливаем уровень графики на 1 шаг лучше, если ур.гр. макс то минимальный
                 QualitySettings.GetQualityLevel() >= 5 ? 0 : QualitySettings.GetQualityLevel() + 1, true);
-            text.text = $"������� �������: {QualitySettings.names[QualitySettings.GetQualityLevel()]}";
-            Cursor.visible = false;
+            text.text = $"Уровень графики: {QualitySettings.names[QualitySettings.GetQualityLevel()]}"; // вывод текста в UI
+            Cursor.visible = false; // скрываем курсор, инчае при нажатии он становится видимым
         }
-        //if (Input.GetKeyDown(KeyCode.Keypad2))
-        //{
-        //    QualitySettings.SetQualityLevel(1, true);
-        //}
-        //if (Input.GetKeyDown(KeyCode.Keypad3))
-        //{
-        //    QualitySettings.SetQualityLevel(2, true);
-        //}
-        //if (Input.GetKeyDown(KeyCode.Keypad4))
-        //{
-        //    QualitySettings.SetQualityLevel(3, true);
-        //}
-        //if (Input.GetKeyDown(KeyCode.Keypad5))
-        //{
-        //    QualitySettings.SetQualityLevel(4, true);
-        //}
-        //if (Input.GetKeyDown(KeyCode.Keypad6))
-        //{
-        //    QualitySettings.SetQualityLevel(5, true);
-        //}
-        
     }
 }
