@@ -37,6 +37,9 @@ jobs:
           #          - tvOS # Build to Apple's tvOS platform.
           #          - Switch # Build a Nintendo Switch player
     steps:
+    
+      
+    
       ###########################
       #         Checkout        #
       ###########################
@@ -83,9 +86,13 @@ jobs:
 #всё ниже ничего не добавлять не исправлять, ИДЕАЛЬНО, зипы все в свои папки платформ идут, ничего не удаляет не перезаписывает
 #МОЖНО менять только папку куда папки платформ будет переводить, но лучше сделаю её ${{ matrix.projectName }}
 
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%d-%m-%Y_%H:%M')"
+
       - uses: montudor/action-zip@v1
         with:
-         args: zip -qq -r build/${{ matrix.projectName }}-${{ matrix.targetPlatform }}.zip build/${{ matrix.targetPlatform }}/
+         args: zip -qq -r build/${{ matrix.projectName }}_${{ matrix.targetPlatform }}_${{ steps.date.outputs.date }}.zip build/${{ matrix.targetPlatform }}/
   
       - uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:

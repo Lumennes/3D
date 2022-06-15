@@ -22,6 +22,7 @@ public class ChangeQuality : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // отображай текст правильно!!!
         txt.text = $"Уровень графики: {QualitySettings.names[QualitySettings.GetQualityLevel()]}"; // вывод текста в UI
     }
 
