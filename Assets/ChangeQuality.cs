@@ -24,7 +24,7 @@ public class ChangeQuality : MonoBehaviour
             QualitySettings.SetQualityLevel( // устанавливаем уровень графики на 1 шаг лучше, если ур.гр. макс то минимальный
                 QualitySettings.GetQualityLevel() >= 5 ? 0 : QualitySettings.GetQualityLevel() + 1, true);
             text.text = $"Уровень графики: {QualitySettings.names[QualitySettings.GetQualityLevel()]}"; // вывод текста в UI
-            Cursor.visible = false; // скрываем курсор, инчае при нажатии он становится видимым
+            Cursor.visible = false; // скрываем курсор, инчае при нажатии он становится видимым 
         }
     }
 }

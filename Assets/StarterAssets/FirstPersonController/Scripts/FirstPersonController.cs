@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+п»їusing UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
+using System.Runtime.InteropServices;
 
 namespace StarterAssets
 {
@@ -58,13 +59,28 @@ namespace StarterAssets
 		private float _speed;
 		private float _rotationVelocity;
 		private float _verticalVelocity;
-		private float _terminalVelocity = 53.0f;
+		private readonly float _terminalVelocity = 53.0f;
 
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
-	
+		[SerializeField] private GameObject _joysticks;
+		private bool isMobile;
+
+		[DllImport("__Internal")]
+		private static extern bool IsMobile();
+
+//		public bool isMobile()
+//		{
+//#if !UNITY_EDITOR && UNITY_WEBGL
+//             //return IsMobile();
+//			 _isMobile = IsMobile();
+//#endif
+//			return false;
+//		}
+
+
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		private PlayerInput _playerInput;
 #endif
@@ -88,11 +104,15 @@ namespace StarterAssets
 
 		private void Awake()
 		{
+			Cursor.visible = false;
+
 			// get a reference to our main camera
 			if (_mainCamera == null)
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
+
+			
 		}
 
 		private void Start()
@@ -108,6 +128,29 @@ namespace StarterAssets
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
+
+			// РІ РѕР±С‰РµРј С‚СѓС‚ РїРѕРєР°Р·С‹РІР°РµРј СЌРєСЂР°РЅРЅС‹Рµ РґР¶РѕР№СЃС‚РёРєРё РµСЃР»Рё РёРіСЂР° Р·Р°РїСѓС‰РµРЅР° РЅР° Android РёР»Рё РІ Simulator СЂРµР°РґРєС‚РѕСЂР° Unity
+			{
+				bool isMobile = false;
+
+				if (_joysticks)
+				{
+#if UNITY_EDITOR
+					isMobile = UnityEngine.Device.SystemInfo.deviceType != DeviceType.Desktop;
+#else
+					isMobile = Application.platform == RuntimePlatform.Android; // РІ Р±РёР»РґРµ true РµСЃР»Рё android
+
+					if(Application.platform == RuntimePlatform.WebGLPlayer) // РµСЃР»Рё WebGL, С‚Рѕ РјРѕР±Р°Р№Р» РµСЃР»Рё РЅР° РјРѕР±РёР»СЊРЅРѕРј Р·Р°РїСѓС‰РЅ
+					{
+						isMobile = IsMobile();
+					}
+#endif
+
+					_joysticks.SetActive(isMobile);
+				}
+				_input.cursorLocked = !isMobile;
+				_input.cursorInputForLook = !isMobile;
+			}
 		}
 
 		private void Update()
@@ -125,7 +168,7 @@ namespace StarterAssets
 		private void GroundedCheck()
 		{
 			// set sphere position, with offset
-			Vector3 spherePosition = new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
+			Vector3 spherePosition = new(transform.position.x, transform.position.y - GroundedOffset, transform.position.z);
 			Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers, QueryTriggerInteraction.Ignore);
 		}
 
@@ -255,8 +298,8 @@ namespace StarterAssets
 
 		private void OnDrawGizmosSelected()
 		{
-			Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
-			Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
+			Color transparentGreen = new(0.0f, 1.0f, 0.0f, 0.35f);
+			Color transparentRed = new(1.0f, 0.0f, 0.0f, 0.35f);
 
 			if (Grounded) Gizmos.color = transparentGreen;
 			else Gizmos.color = transparentRed;
