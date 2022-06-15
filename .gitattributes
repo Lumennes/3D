@@ -1,6 +1,6 @@
 ## Unity ##
 
-*.cs diff=csharp text
+*.cs diff=csharp text working-tree-encoding=CP1251	eol=CRLF
 *.cginc text
 *.shader text
 
