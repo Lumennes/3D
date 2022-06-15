@@ -64,6 +64,7 @@ jobs:
           #unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
           #customParameters: -profile SomeProfile -someBoolean -someValue exampleValue
+          allowDirtyBuild: true
 
       ###########################
       #          Upload         #
