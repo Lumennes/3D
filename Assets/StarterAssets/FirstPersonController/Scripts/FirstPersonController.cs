@@ -66,20 +66,8 @@ namespace StarterAssets
 		private float _fallTimeoutDelta;
 
 		[SerializeField] private GameObject _joysticks;
+		[SerializeField] private UIVirtualTouchZone touchZone;
 		private bool isMobile;
-
-		[DllImport("__Internal")]
-		private static extern bool IsMobile();
-
-//		public bool isMobile()
-//		{
-//#if !UNITY_EDITOR && UNITY_WEBGL
-//             //return IsMobile();
-//			 _isMobile = IsMobile();
-//#endif
-//			return false;
-//		}
-
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		private PlayerInput _playerInput;
@@ -104,15 +92,14 @@ namespace StarterAssets
 
 		private void Awake()
 		{
-			Cursor.visible = false;
+			Application.targetFrameRate = 60;
+			Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
 			// get a reference to our main camera
 			if (_mainCamera == null)
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-			}
-
-			
+			}			
 		}
 
 		private void Start()
@@ -137,19 +124,31 @@ namespace StarterAssets
 				{
 #if UNITY_EDITOR
 					isMobile = UnityEngine.Device.SystemInfo.deviceType != DeviceType.Desktop;
+					// СЃРЅРёР¶Р°РµРј РјР°РіРЅРёС‚СѓРґСѓ С‚Р°С‡ Р·РѕРЅС‹ РІ СЃРёРјСѓР»СЏС‚РѕСЂРµ С‡С‚РѕР± РЅРµ СЃРёР»СЊРЅРѕ РІРµСЂС‚РµР»РѕСЃСЊ
+					if (isMobile)
+					{
+						if (touchZone)
+						{
+							touchZone.magnitudeMultiplier = 1;
+						}
+					}
 #else
 					isMobile = Application.platform == RuntimePlatform.Android; // РІ Р±РёР»РґРµ true РµСЃР»Рё android
 
 					if(Application.platform == RuntimePlatform.WebGLPlayer) // РµСЃР»Рё WebGL, С‚Рѕ РјРѕР±Р°Р№Р» РµСЃР»Рё РЅР° РјРѕР±РёР»СЊРЅРѕРј Р·Р°РїСѓС‰РЅ
 					{
-						isMobile = IsMobile();
+						isMobile = Platform.IsMobileBrowser();
 					}
 #endif
-
 					_joysticks.SetActive(isMobile);
 				}
 				_input.cursorLocked = !isMobile;
 				_input.cursorInputForLook = !isMobile;
+
+				if (!isMobile)
+				{
+					Cursor.visible = false;					
+				}
 			}
 		}
 

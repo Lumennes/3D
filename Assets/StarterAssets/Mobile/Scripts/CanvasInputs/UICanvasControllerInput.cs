@@ -27,7 +27,13 @@ namespace StarterAssets
         {
             starterAssetsInputs.SprintInput(virtualSprintState);
         }
-        
+
+        public void VirtualGraphInput(bool virtualGraphState)
+        {
+            if(virtualGraphState)
+                ChangeQuality.instance.UPGrapcis();
+        }
+
     }
 
 }

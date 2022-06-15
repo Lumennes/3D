@@ -8,7 +8,14 @@ using TMPro;
 /// </summary>
 public class ChangeQuality : MonoBehaviour
 {
+    public static ChangeQuality instance;
+
     public TMP_Text text;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -21,10 +28,15 @@ public class ChangeQuality : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L)) // при нажатии кнопки L (думаю она ни за что не отвечает нигде)
         {
-            QualitySettings.SetQualityLevel( // устанавливаем уровень графики на 1 шаг лучше, если ур.гр. макс то минимальный
-                QualitySettings.GetQualityLevel() >= 5 ? 0 : QualitySettings.GetQualityLevel() + 1, true);
-            text.text = $"Уровень графики: {QualitySettings.names[QualitySettings.GetQualityLevel()]}"; // вывод текста в UI
-            Cursor.visible = false; // скрываем курсор, инчае при нажатии он становится видимым 
+            UPGrapcis();
         }
+    }
+
+    public void UPGrapcis()
+    {
+        QualitySettings.SetQualityLevel( // устанавливаем уровень графики на 1 шаг лучше, если ур.гр. макс то минимальный
+                QualitySettings.GetQualityLevel() >= 5 ? 0 : QualitySettings.GetQualityLevel() + 1, true);
+        text.text = $"Уровень графики: {QualitySettings.names[QualitySettings.GetQualityLevel()]}"; // вывод текста в UI
+        Cursor.visible = false; // скрываем курсор, инчае при нажатии он становится видимым 
     }
 }
