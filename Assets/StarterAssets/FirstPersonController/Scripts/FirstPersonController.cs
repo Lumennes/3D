@@ -147,7 +147,7 @@ namespace StarterAssets
 
 				if (!isMobile)
 				{
-					Cursor.visible = false;					
+					Cursor.visible = false;
 				}
 			}
 		}
