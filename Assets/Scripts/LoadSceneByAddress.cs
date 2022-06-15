@@ -12,7 +12,7 @@ internal class LoadSceneByAddress : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(gameObject);
-        loadHandle = Addressables.LoadSceneAsync(key, LoadSceneMode.Additive);
+        loadHandle = Addressables.LoadSceneAsync(key/*, LoadSceneMode.Additive*/);
     }
 
     void OnDestroy()
